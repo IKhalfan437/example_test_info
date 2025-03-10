@@ -94,16 +94,24 @@ hr {
 .btn:hover {
     background: #E6A4B4;
 }
-/* Image Slider Styles */
+.slider-container {
+    width: 100%;
+    margin: 40px 0; /* Adds space above and below the slider */
+    overflow: hidden;
+    position: relative;
+    text-align: center; /* Centers the slider horizontally */
+}
+
+/* Image Track */
 #image-track {
     display: flex;
     gap: 4vmin;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(0%, -50%);
+    position: relative; /* Changed from absolute to relative */
+    left: 0;
+    top: 0;
+    transform: none; /* Removed translate */
     user-select: none; /* Prevent text selection */
-    margin-top: 20px; /* Adjust spacing */
+    padding: 20px 0; /* Adds padding above and below the images */
 }
 
 #image-track > .image {
