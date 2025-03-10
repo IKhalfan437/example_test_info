@@ -42,46 +42,50 @@ document.addEventListener('DOMContentLoaded', function () {
         observer.observe(element);
     });
 
-    // Pause slider on hover
-    const slider = document.querySelector('.slider');
-    if (slider) {
-        slider.addEventListener('mouseenter', () => {
-            slider.style.animationPlayState = 'paused';
-        });
+    // Image Slider Functionality
+    const track = document.getElementById("image-track");
 
-        slider.addEventListener('mouseleave', () => {
-            slider.style.animationPlayState = 'running';
-        });
-    }
+    if (track) {
+        const handleOnDown = e => {
+            track.dataset.mouseDownAt = e.clientX;
+        };
 
-    // Add clickable navigation to slider
-    const slides = document.querySelectorAll('.slide');
-    if (slides.length > 0) {
-        slides.forEach((slide, index) => {
-            slide.addEventListener('click', () => {
-                // Calculate the slide position
-                const slidePosition = -index * 100;
-                slider.style.marginLeft = `${slidePosition}%`;
+        const handleOnUp = () => {
+            track.dataset.mouseDownAt = "0";
+            track.dataset.prevPercentage = track.dataset.percentage;
+        };
 
-                // Reset animation
-                slider.style.animation = 'none';
-                setTimeout(() => {
-                    slider.style.animation = 'slide 16s infinite';
-                }, 10);
-            });
-        });
-    }
+        const handleOnMove = e => {
+            if (track.dataset.mouseDownAt === "0") return;
 
-    // Contact form submission handler
-    const contactBtn = document.querySelector('.btn');
-    if (contactBtn) {
-        contactBtn.addEventListener('click', function (e) {
-            if (!this.classList.contains('btn-animate')) {
-                this.classList.add('btn-animate');
-                setTimeout(() => {
-                    this.classList.remove('btn-animate');
-                }, 300);
+            const mouseDelta = parseFloat(track.dataset.mouseDownAt) - e.clientX,
+                maxDelta = window.innerWidth / 2;
+
+            const percentage = (mouseDelta / maxDelta) * -100,
+                nextPercentageUnconstrained = parseFloat(track.dataset.prevPercentage) + percentage,
+                nextPercentage = Math.max(Math.min(nextPercentageUnconstrained, 0), -100);
+
+            track.dataset.percentage = nextPercentage;
+
+            track.animate({
+                transform: `translate(${nextPercentage}%, -50%)`
+            }, { duration: 1200, fill: "forwards" });
+
+            for (const image of track.getElementsByClassName("image")) {
+                image.animate({
+                    objectPosition: `${100 + nextPercentage}% center`
+                }, { duration: 1200, fill: "forwards" });
             }
-        });
+        };
+
+        // Add event listeners for mouse and touch events
+        window.onmousedown = e => handleOnDown(e);
+        window.ontouchstart = e => handleOnDown(e.touches[0]);
+
+        window.onmouseup = () => handleOnUp();
+        window.ontouchend = () => handleOnUp();
+
+        window.onmousemove = e => handleOnMove(e);
+        window.ontouchmove = e => handleOnMove(e.touches[0]);
     }
 });
