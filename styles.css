@@ -94,24 +94,25 @@ hr {
 .btn:hover {
     background: #E6A4B4;
 }
+/* Slider Container */
 .slider-container {
     width: 100%;
-    margin: 40px 0; /* Adds space above and below the slider */
+    margin: 40px 0;
     overflow: hidden;
     position: relative;
-    text-align: center; /* Centers the slider horizontally */
+    text-align: center;
 }
 
 /* Image Track */
 #image-track {
     display: flex;
     gap: 4vmin;
-    position: relative; /* Changed from absolute to relative */
+    position: relative;
     left: 0;
     top: 0;
-    transform: none; /* Removed translate */
-    user-select: none; /* Prevent text selection */
-    padding: 20px 0; /* Adds padding above and below the images */
+    transform: none;
+    user-select: none;
+    padding: 20px 0;
 }
 
 #image-track > .image {
@@ -119,9 +120,11 @@ hr {
     height: 56vmin;
     object-fit: cover;
     object-position: 100% center;
-    border-radius: 10px; /* Optional: Add rounded corners */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Optional: Add shadow */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
+
+
 
 .copyright {
     color: #f5eee6;
